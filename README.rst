@@ -13,9 +13,10 @@ Welcome to the great web framework shootout. Here you will find test code and
 benchmark results comparing the performance of a few of the most popular F/OSS
 web frameworks in use today.
 
-Please see the `Great Web Framework Shootout`_ website for more information.
+Please see `The Great Web Framework Shootout's website`_ for disclaimers, pretty
+little graphs, and other important information.
 
-.. _Great Web Framework Shootout:
+.. _The Great Web Framework Shootout's website:
    http://blog.curiasolutions.com/the-great-web-framework-shootout/
 
 

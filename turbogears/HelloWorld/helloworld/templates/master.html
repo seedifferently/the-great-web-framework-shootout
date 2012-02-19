@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/" py:strip="">
+  <head>
+    <title>Hello World</title>
+  </head>
+  <py:match path="body" once="true">
+    <body>
+        ${select('*|text()')}
+    </body>
+  </py:match>
+</html>
+

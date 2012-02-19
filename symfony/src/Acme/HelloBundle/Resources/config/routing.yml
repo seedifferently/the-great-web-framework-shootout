@@ -1,0 +1,11 @@
+AcmeHelloBundle_homepage:
+    pattern:  /hello/
+    defaults: { _controller: AcmeHelloBundle:Default:index }
+
+hellos:
+    pattern:  /hellos/
+    defaults: { _controller: AcmeHelloBundle:Hello:index }
+
+hellodb:
+    pattern:  /hellodb/
+    defaults: { _controller: AcmeHelloBundle:Hellodb:index }

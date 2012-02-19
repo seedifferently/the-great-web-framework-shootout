@@ -20,6 +20,24 @@ little graphs, and other important information.
    http://blog.curiasolutions.com/the-great-web-framework-shootout/
 
 
+"Do these results have any real world value?"
+================================================================================
+
+Probably not. When it comes to code, the slightest adjustments have the
+potential to change things drastically. While I have tried to perform each test
+as fairly and accurately as possible, it would be foolish to consider these
+results as scientific in any way. It should also be noted that my goal here was
+not necessarily to figure out how fast each framework could perform at its *most
+optimized* configuration (although built-in caching and other performance tweaks
+were usually enabled if the default configuration permitted it), but rather to
+see what a *minimal "out-of-the-box" experience* would look like.
+
+Additionally, nothing here is intended to make one web technology appear
+"better" than another. When it comes to using the right tool for the job,
+"faster" does not necessarily mean "better" (very few real world projects are
+going to depend solely on page request speeds).
+
+
 "Will you please add XYZ to the results?"
 ================================================================================
 

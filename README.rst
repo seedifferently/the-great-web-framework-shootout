@@ -20,6 +20,15 @@ little graphs, and other important information.
    http://blog.curiasolutions.com/the-great-web-framework-shootout/
 
 
+Will you please add XYZ to the results?
+================================================================================
+
+Maybe, if you can convince me that enough people would be interested in having
+it displayed next to heavyweights like Rails and Django. Fork the repository and
+submit a pull request with the test app code and your best sales pitch.
+Otherwise, I'd suggest you boot up the EC2 AMI and do your own benchmarking.
+
+
 Benchmark Results
 ================================================================================
 

@@ -9,7 +9,7 @@ CakePHP test code for The Great Web Framework Shootout
 Synopsis
 ================================================================================
 
-This code was last tested using CakePHP **v1.3.11** and will likely perform
+This code was last tested using CakePHP **v2.0.6** and will likely perform
 differently when using a different version.
 
 Please see `The Great Web Framework Shootout`_ for more information.

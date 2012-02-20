@@ -8,7 +8,12 @@ Go test code for The Great Web Framework Shootout
 Synopsis
 ================================================================================
 
-An implementation of the 'webgo' benchmark without using web.go, mustache.go,
-or any non-standard libraries. Go's http and template packages are more mature.
+An implementation of the 'webgo' benchmark that uses Go's built-in net/http and
+html/template pacakges instead of web.go and mustache.go. This implementation
+also provides a database example using the built-in database/sql abstraction
+layer and mattn's go-sqlite3.
 
-It was written to run against Go version weekly.2012-02-14.
+Go's http and template packages are more mature and featureful than the libraries
+orignally chosen for the shootout.
+
+This was written to run against Go version weekly.2012-02-14.

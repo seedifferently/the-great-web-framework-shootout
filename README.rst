@@ -13,11 +13,13 @@ Welcome to the great web framework shootout. Here you will find test code and
 benchmark results comparing the performance of a few of the most popular F/OSS
 web frameworks in use today.
 
-Please see `The Great Web Framework Shootout's website`_ for disclaimers, pretty
-little graphs, and other important information.
+Please see `The Great Web Framework Shootout's website`_ for important
+disclaimers and other detailed information about these benchmarks. If you have
+any questions or comments, feel free to contact me on `Google+`_.
 
 .. _The Great Web Framework Shootout's website:
    http://blog.curiasolutions.com/the-great-web-framework-shootout/
+.. _Google+: http://profiles.google.com/seedifferently
 
 
 "Do these results have any real world value?"
@@ -50,15 +52,21 @@ Otherwise, I'd suggest you boot up the EC2 AMI and do your own benchmarking.
 Benchmark Results
 ================================================================================
 
-Three basic tests were set up for each framework up to run. Below are the
-results of each test in requests per second from highest (best performance) to
-lowest (worst performance).
+Three basic tests were set up for each framework to run. Below are the results
+of each test in requests per second from highest (best performance) to lowest
+(worst performance).
 
 Remember: Comparing all of these framework tests side-by-side isn't really
 "fair" because they are all so different. Compiled languages (e.g. Go) are
 expected to be faster than scripted languages. Tests using an ORM (e.g. Rails,
 Django, Pyramid, etc.) are expected to be slower than tests using only a plain
 database library (e.g. Bottle, Flask, Sinatra, etc).
+
+Please see `the website`_ for more detailed information and a better breakdown
+of the tests (graphs included!).
+
+.. _the website:
+   http://blog.curiasolutions.com/the-great-web-framework-shootout/
 
 
 The "Hello World" String Test

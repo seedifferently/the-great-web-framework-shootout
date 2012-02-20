@@ -13,10 +13,38 @@ Welcome to the great web framework shootout. Here you will find test code and
 benchmark results comparing the performance of a few of the most popular F/OSS
 web frameworks in use today.
 
-Please see the `Great Web Framework Shootout`_ website for more information.
+Please see `The Great Web Framework Shootout's website`_ for disclaimers, pretty
+little graphs, and other important information.
 
-.. _Great Web Framework Shootout:
+.. _The Great Web Framework Shootout's website:
    http://blog.curiasolutions.com/the-great-web-framework-shootout/
+
+
+"Do these results have any real world value?"
+================================================================================
+
+Probably not. When it comes to code, the slightest adjustments have the
+potential to change things drastically. While I have tried to perform each test
+as fairly and accurately as possible, it would be foolish to consider these
+results as scientific in any way. It should also be noted that my goal here was
+not necessarily to figure out how fast each framework could perform at its *most
+optimized* configuration (although built-in caching and other performance tweaks
+were usually enabled if the default configuration permitted it), but rather to
+see what a *minimal "out-of-the-box" experience* would look like.
+
+Additionally, nothing here is intended to make one web technology appear
+"better" than another. When it comes to using the right tool for the job,
+"faster" does not necessarily mean "better" (very few real world projects are
+going to depend solely on page request speeds).
+
+
+"Will you please add XYZ to the results?"
+================================================================================
+
+Maybe, if you can convince me that enough people would be interested in having
+it displayed next to heavyweights like Rails and Django. Fork the repository and
+submit a pull request with the test app code and your best sales pitch.
+Otherwise, I'd suggest you boot up the EC2 AMI and do your own benchmarking.
 
 
 Benchmark Results
@@ -25,6 +53,12 @@ Benchmark Results
 Three basic tests were set up for each framework up to run. Below are the
 results of each test in requests per second from highest (best performance) to
 lowest (worst performance).
+
+Remember: Comparing all of these framework tests side-by-side isn't really
+"fair" because they are all so different. Compiled languages (e.g. Go) are
+expected to be faster than scripted languages. Tests using an ORM (e.g. Rails,
+Django, Pyramid, etc.) are expected to be slower than tests using only a plain
+database library (e.g. Bottle, Flask, Sinatra, etc).
 
 
 The "Hello World" String Test

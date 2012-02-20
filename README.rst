@@ -54,6 +54,12 @@ Three basic tests were set up for each framework up to run. Below are the
 results of each test in requests per second from highest (best performance) to
 lowest (worst performance).
 
+Remember: Comparing all of these framework tests side-by-side isn't really
+"fair" because they are all so different. Compiled languages (e.g. Go) are
+expected to be faster than scripted languages. Tests using an ORM (e.g. Rails,
+Django, Pyramid, etc.) are expected to be slower than tests using only a plain
+database library (e.g. Bottle, Flask, Sinatra, etc).
+
 
 The "Hello World" String Test
 --------------------------------------------------------------------------------

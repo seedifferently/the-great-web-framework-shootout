@@ -6,6 +6,10 @@ The Great Web Framework Shootout
 | http://blog.curiasolutions.com/the-great-web-framework-shootout/
 
 
+**WARNING: YOU ARE CURRENTLY VIEWING THE DEV BRANCH WHICH IS A WORK IN PROGRESS
+BRANCH AND LIKELY CONTAINS INACCURATE AND/OR INCOMPLETE DATA!**
+
+
 Synopsis
 ================================================================================
 

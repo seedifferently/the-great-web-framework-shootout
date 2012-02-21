@@ -1,19 +1,19 @@
 var app = require('express').createServer();
 
 app.configure(function(){
-    app.set('view engine', 'handlebars');
-    app.set('view options', { layout: 'master' });
+  app.set('views', __dirname + '/views');
+  app.set('view engine', 'handlebars');
+  app.set('view options', { layout: 'master' });
 });
 
-app.set('views', __dirname + '/');
-app.set('view engine', 'handlebars');
-
+// GET / → Render with no template
 app.get('/', function(req, res){
     res.send('Hello World!');
 });
 
-app.get('/hellos', function(req, res){
-    res.render('hellos');
+// GET /hb_hello → Render Lorem Ipsum with Handlebars template engine
+app.get('/hb_hello', function(req, res){
+    res.render('hello');
 });
 
 // TODO: ADD DB TEST

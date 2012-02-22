@@ -1,0 +1,70 @@
+2012-02-22 22:27:31	127.0.0.1	error	2012-02-22 22:27:31	127.0.0.1	[14]	SQLSTATE[HY000] [14] unable to open database file	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/db/jDbPDOConnection.class.php	82
+	/index.php?action=default:hellodb
+array (   'action' => 'default:hellodb', )
+
+	0	PDO->__construct()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/db/jDbPDOConnection.class.php : 82
+	1	jDbPDOConnection->__construct()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/db/jDb.class.php : 186
+	2	jDb::_createConnector()	[php] : 
+	3	call_user_func()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/utils/jProfiles.class.php : 153
+	4	jProfiles::getOrStoreInPool()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/db/jDb.class.php : 120
+	5	jDb::getConnection()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/hello/modules/hello/controllers/default.classic.php : 18
+	6	defaultCtrl->hellodb()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/core/jCoordinator.class.php : 205
+	7	jCoordinator->process()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/hello/www/index.php : 19
+
+
+2012-02-22 22:29:26	127.0.0.1	notice	2012-02-22 22:29:26	127.0.0.1	[8]	Undefined variable: c	/home/foxmask/Public/the-great-web-framework-shootout/jelix/hello/modules/hello/controllers/default.classic.php	20
+	/index.php?action=default:hellodb
+array (   'action' => 'default:hellodb', )
+
+	0	defaultCtrl->hellodb()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/core/jCoordinator.class.php : 205
+	1	jCoordinator->process()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/hello/www/index.php : 19
+
+
+2012-02-22 22:29:55	127.0.0.1	notice	2012-02-22 22:29:55	127.0.0.1	[8]	Undefined variable: cnx	/home/foxmask/Public/the-great-web-framework-shootout/jelix/hello/modules/hello/controllers/default.classic.php	20
+	/index.php?action=default:hellodb
+array (   'action' => 'default:hellodb', )
+
+	0	defaultCtrl->hellodb()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/core/jCoordinator.class.php : 205
+	1	jCoordinator->process()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/hello/www/index.php : 19
+
+
+2012-02-22 22:30:17	127.0.0.1	error	2012-02-22 22:30:17	127.0.0.1	[HY000]	SQLSTATE[HY000]: General error: 1 near "=": syntax error	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/db/jDbPDOConnection.class.php	121
+	/index.php?action=default:hellodb
+array (   'action' => 'default:hellodb', )
+
+	0	PDO->query()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/db/jDbPDOConnection.class.php : 121
+	1	jDbPDOConnection->query()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/hello/modules/hello/controllers/default.classic.php : 20
+	2	defaultCtrl->hellodb()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/core/jCoordinator.class.php : 205
+	3	jCoordinator->process()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/hello/www/index.php : 19
+
+
+2012-02-22 22:31:01	127.0.0.1	error	2012-02-22 22:31:01	127.0.0.1	[HY000]	SQLSTATE[HY000]: General error: 1 no such table: hello	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/db/jDbPDOConnection.class.php	121
+	/index.php?action=default:hellodb
+array (   'action' => 'default:hellodb', )
+
+	0	PDO->query()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/db/jDbPDOConnection.class.php : 121
+	1	jDbPDOConnection->query()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/hello/modules/hello/controllers/default.classic.php : 20
+	2	defaultCtrl->hellodb()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/core/jCoordinator.class.php : 205
+	3	jCoordinator->process()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/hello/www/index.php : 19
+
+
+2012-02-22 22:31:34	127.0.0.1	error	2012-02-22 22:31:34	127.0.0.1	[HY000]	SQLSTATE[HY000]: General error: 1 no such table: datas	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/db/jDbPDOConnection.class.php	121
+	/index.php?action=default:hellodb
+array (   'action' => 'default:hellodb', )
+
+	0	PDO->query()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/db/jDbPDOConnection.class.php : 121
+	1	jDbPDOConnection->query()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/hello/modules/hello/controllers/default.classic.php : 20
+	2	defaultCtrl->hellodb()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/core/jCoordinator.class.php : 205
+	3	jCoordinator->process()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/hello/www/index.php : 19
+
+
+2012-02-22 22:32:11	127.0.0.1	error	2012-02-22 22:32:11	127.0.0.1	[HY000]	SQLSTATE[HY000]: General error: 1 no such table: datas	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/db/jDbPDOConnection.class.php	121
+	/index.php?action=default:hellodb
+array (   'action' => 'default:hellodb', )
+
+	0	PDO->query()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/db/jDbPDOConnection.class.php : 121
+	1	jDbPDOConnection->query()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/hello/modules/hello/controllers/default.classic.php : 20
+	2	defaultCtrl->hellodb()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/lib/jelix/core/jCoordinator.class.php : 205
+	3	jCoordinator->process()	/home/foxmask/Public/the-great-web-framework-shootout/jelix/hello/www/index.php : 19
+
+

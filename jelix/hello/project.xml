@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://jelix.org/ns/project/1.0">
+    <info id="hello@foxmask.info" name="hello" createdate="2012-02-18">
+        <version date="2012-02-18">0.1pre</version>
+        <label lang="en_EN">hello</label>
+        <description lang="en_EN">Hello for "Bench" purpose</description>
+        <license URL="http://gnu.org">All rights reserved</license>
+        <copyright>2012 Olivier Demah</copyright>
+        <creator name="Olivier Demah" email="foxmask@foxmask.info" active="true" />
+        <homepageURL>http://www.foxmask.info</homepageURL>
+    </info>
+    <dependencies>
+        <jelix minversion="1.3.1" maxversion="1.3.*" />
+    </dependencies>
+    <entrypoints>
+        <!-- file: the path to the entry point relative to the base path
+            config: the path to the config file used by the entry point, relative
+                    to var/config/
+            type: type of the entry point : classic, cmdline, xmlrpc....-->
+        <entry file="index.php" config="index/config.ini.php" />
+    </entrypoints>
+</project>

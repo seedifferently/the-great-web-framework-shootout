@@ -1,5 +1,5 @@
 ================================================================================
-CakePHP test code for The Great Web Framework Shootout
+Jelix test code for The Great Web Framework Shootout
 ================================================================================
 
 | Copyright: (c) 2012 Seth Davis

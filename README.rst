@@ -48,8 +48,9 @@ going to depend solely on page request speeds).
 ================================================================================
 
 Maybe, if you can convince me that enough people would be interested in having
-it displayed next to heavyweights like Rails and Django. Fork the repository and
-submit a pull request with the test app code and your best sales pitch.
+it displayed next to heavyweights like Rails and Django. Fork the repository
+and submit a pull request under the `dev` branch with a test app in the same
+format as the other tests, and make sure you include your best sales pitch.
 Otherwise, I'd suggest you boot up the EC2 AMI and do your own benchmarking.
 
 

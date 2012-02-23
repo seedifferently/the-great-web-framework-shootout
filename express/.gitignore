@@ -1,0 +1,4 @@
+node_modules/sqlite3/build/
+node_modules/sqlite3/lib/sqlite3_bindings.node
+node_modules/sqlite3/.lock-wscript
+node_modules/sqlite3/deps/sqlite-autoconf-*

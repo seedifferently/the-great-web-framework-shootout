@@ -1,0 +1,20 @@
+{
+  "name": "the-great-web-framework-shootout_express",
+  "description": "Express app for The Great Web Framework Shootout",
+  "private": true,
+  "version": "0.0.0",
+  "homepage": "https://github.com/seedifferently/the-great-web-framework-shootout",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/naholyr/the-great-web-framework-shootout.git"
+  },
+  "main": "express_app.js",
+  "engines": {
+    "node": "~0.6.11 || 0.6.11-pre"
+  },
+  "dependencies": {
+    "handlebars": "~1.0.5beta",
+    "express": "~2.5.8",
+    "sqlite3": "~2.1.1"
+  }
+}

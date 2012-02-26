@@ -6,4 +6,6 @@ tmp
 .history
 .classpath
 .project
+.cache
 .settings/
+.target/

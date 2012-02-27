@@ -1,7 +1,12 @@
-Tapestry 5.3.2 implementation
+Tapestry 5.3.2 Implementation
 ====
 
-Created by Howard M. Lewis Ship <hlship@gmail.com>
+Created by Howard M. Lewis Ship \<hlship@gmail.com\>
+
+[Apache Tapestry](http://tapestry.apache.org) is a popular Java language, component-oriented
+web framework that combines high-performance with terrific developer productivity. This kind
+of simple demo does not demonstrate Tapestry to its strengths, but it should still have a good
+showing here.
 
 Running the Application
 ----
@@ -19,10 +24,16 @@ By default, the application is configured to respond to the URL:
     http://localhost:8080/apache-tapestry5/
     
 The root Index page includes simple links to the other three demonstration
-pages.
+pages:
+
+* http://localhost:8080/apache-tapestry5/index.text
+* http://localhost:8080/apache-tapestry5/helloworldstatic
+* http://localhost:8080/apache-tapestry5/helloworlddb
 
 The application's behavior was copied, as much as possible, from the sinatra application.
 This included copying the hello.db file.
+
+
 	
 	
 

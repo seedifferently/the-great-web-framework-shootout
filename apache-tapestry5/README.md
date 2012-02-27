@@ -12,11 +12,14 @@ The application executes from this directory using Gradle:
 	
 This assumes that JDK 1.6 is installed locally.  On first execution,
 the `gradlew` (Gradle Wrapper) script will automatically download all
-necessary dependencies to build and execute the appliation.
+necessary dependencies to build and execute the application.
 
 By default, the application is configured to respond to the URL:
 
     http://localhost:8080/t5app
+    
+The root Index page includes simple links to the other three demonstration
+pages.
 	
 	
 

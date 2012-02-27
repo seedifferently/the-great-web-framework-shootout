@@ -35,12 +35,8 @@ sourceSets {
 dependencies {
 
     compile "org.apache.tapestry:tapestry-core:5.3.2"
-
-    // This adds automatic compression of JavaScript and CSS in production mode:
-    compile "org.apache.tapestry:tapestry-yuicompressor:5.3.2"
-
-    // Uncomment this to add support for file uploads:
-    // compile "org.apache.tapestry:tapestry-upload:5.3.2"
+    compile "org.xerial:sqlite-jdbc:3.6.16"
+    compile "com.jolbox:bonecp:0.7.1.RELEASE"
 
     provided "javax.servlet:servlet-api:2.5"
 }

@@ -1,8 +1,11 @@
 package gwfs.services;
 
+import com.jolbox.bonecp.BoneCPDataSource;
 import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
+
+import javax.sql.DataSource;
 
 /**
  * This module is automatically included as part of the Tapestry IoC Registry, it's a good place to
@@ -38,4 +41,26 @@ public class AppModule {
         // the first locale name is the default when there's no reasonable match).
         configuration.add(SymbolConstants.SUPPORTED_LOCALES, "en");
     }
+
+    // Normally, all the connection pooling and management stuff comes out of Hibernate,
+    // but this is a quick-and-dirty way to get about the same thing.
+
+    /**
+     * Define a DataSource service.
+     */
+    public DataSource buildBoneCPDataSource() {
+
+        BoneCPDataSource ds = new BoneCPDataSource();
+        ds.setDriverClass("org.sqlite.JDBC");
+        ds.setJdbcUrl("jdbc:sqlite:hello.db");
+        ds.setUsername("n/a");
+        ds.setPassword("n/a");
+        // The test documentation indicates up to about 15 parallel requests, so let's make sure there's
+        // always a connection ready in the pool.
+        ds.setMinConnectionsPerPartition(15);
+        ds.setMaxConnectionsPerPartition(20);
+
+        return ds;
+    }
+
 }

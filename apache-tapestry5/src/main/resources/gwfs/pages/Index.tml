@@ -9,8 +9,12 @@
         -- uses a TextStreamResponse
     </li>
     <li>
-        <t:pagelink page="HelloWorldStatic">Static HelloWorld page</t:pagelink>
+        <t:pagelink page="HelloWorldStatic">Static HelloWorld</t:pagelink>
         -- uses a very simple template with no dynamic behavior
+    </li>
+    <li>
+        <t:pagelink page="HelloWorldDB">Database HelloWorld</t:pagelink>
+        -- uses a connection bool over a SQLLite3 database
     </li>
 </ul>
 </body>

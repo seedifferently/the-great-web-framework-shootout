@@ -20,6 +20,9 @@ By default, the application is configured to respond to the URL:
     
 The root Index page includes simple links to the other three demonstration
 pages.
+
+The application's behavior was copied, as much as possible, from the sinatra application.
+This included copying the hello.db file.
 	
 	
 

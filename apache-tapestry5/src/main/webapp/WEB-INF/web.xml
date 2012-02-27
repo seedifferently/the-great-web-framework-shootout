@@ -10,23 +10,6 @@ of where to look for pages, components and mixins. -->
         <param-name>tapestry.app-package</param-name>
         <param-value>gwfs</param-value>
     </context-param>
-    <!--
-    Specify some additional Modules for two different execution
-    modes: development and qa.
-    Remember that the default execution mode is production
-    -->
-    <context-param>
-        <param-name>tapestry.development-modules</param-name>
-        <param-value>
-            gwfs.services.DevelopmentModule
-        </param-value>
-    </context-param>
-    <context-param>
-        <param-name>tapestry.qa-modules</param-name>
-        <param-value>
-            gwfs.services.QaModule
-        </param-value>
-    </context-param>
     <filter>
         <filter-name>app</filter-name>
         <filter-class>org.apache.tapestry5.TapestryFilter</filter-class>

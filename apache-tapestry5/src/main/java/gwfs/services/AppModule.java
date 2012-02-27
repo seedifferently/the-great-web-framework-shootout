@@ -4,8 +4,10 @@ import com.jolbox.bonecp.BoneCPDataSource;
 import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
+import org.sqlite.SQLiteOpenMode;
 
 import javax.sql.DataSource;
+import java.util.Properties;
 
 /**
  * This module is automatically included as part of the Tapestry IoC Registry, it's a good place to
@@ -48,11 +50,16 @@ public class AppModule {
     /**
      * Define a DataSource service.
      */
-    public DataSource buildBoneCPDataSource() {
+    public DataSource buildBoneCPDataSource() throws Exception {
+
+        Properties props = new Properties();
+
+        props.put("open_mode", String.valueOf(SQLiteOpenMode.READONLY));
 
         BoneCPDataSource ds = new BoneCPDataSource();
         ds.setDriverClass("org.sqlite.JDBC");
         ds.setJdbcUrl("jdbc:sqlite:hello.db");
+        ds.setProperties(props);
         ds.setUsername("n/a");
         ds.setPassword("n/a");
         // The test documentation indicates up to about 15 parallel requests, so let's make sure there's

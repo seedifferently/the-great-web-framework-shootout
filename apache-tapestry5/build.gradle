@@ -35,7 +35,7 @@ sourceSets {
 dependencies {
 
     compile "org.apache.tapestry:tapestry-core:5.3.2"
-    compile "org.xerial:sqlite-jdbc:3.6.16"
+    compile "org.xerial:sqlite-jdbc:3.7.2"
     compile "com.jolbox:bonecp:0.7.1.RELEASE"
 
     provided "javax.servlet:servlet-api:2.5"

@@ -1,6 +1,5 @@
 package gwfs.pages;
 
-public class Contact
-{
+public class Contact {
 
 }

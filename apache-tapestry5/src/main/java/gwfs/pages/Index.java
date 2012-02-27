@@ -1,17 +1,20 @@
 package gwfs.pages;
 
-import java.util.Date;
-import org.apache.tapestry5.annotations.*;
-import org.apache.tapestry5.ioc.annotations.*;
-import org.apache.tapestry5.corelib.components.*;
 import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.alerts.AlertManager;
+import org.apache.tapestry5.annotations.InjectComponent;
+import org.apache.tapestry5.annotations.Persist;
+import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.corelib.components.Zone;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.ioc.annotations.Symbol;
+
+import java.util.Date;
 
 /**
  * Start page of application t5app.
  */
-public class Index
-{
+public class Index {
     @Property
     @Inject
     @Symbol(SymbolConstants.TAPESTRY_VERSION)
@@ -27,20 +30,17 @@ public class Index
     @Inject
     private AlertManager alertManager;
 
-    public Date getCurrentTime()
-    {
+    public Date getCurrentTime() {
         return new Date();
     }
 
-    void onActionFromIncrement()
-    {
+    void onActionFromIncrement() {
         alertManager.info("Increment clicked");
 
         clickCount++;
     }
 
-    Object onActionFromIncrementAjax()
-    {
+    Object onActionFromIncrementAjax() {
         clickCount++;
 
         alertManager.info("Increment (via Ajax) clicked");

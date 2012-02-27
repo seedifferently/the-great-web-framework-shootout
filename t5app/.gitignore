@@ -1,1 +1,7 @@
-build
+build/
+*~
+\#*
+.gradle/
+t5app.iml
+t5app.iws
+t5app.ipr

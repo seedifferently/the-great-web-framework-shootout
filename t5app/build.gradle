@@ -3,27 +3,16 @@ description = "t5app application"
 apply plugin: "war"
 apply plugin: "java"
 apply plugin: "jetty"
+apply plugin: "idea"
 
-sourceCompatibility = "1.5"
-targetCompatibility = "1.5"
+sourceCompatibility = "1.6"
+targetCompatibility = "1.6"
 
 group = "gwfs"
 version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-
-    // All things JBoss/Hibernate
-    mavenRepo name: "JBoss", url: "http://repository.jboss.org/nexus/content/groups/public/"
-
-    // For stable versions of the tapx libraries
-    mavenRepo name: "HLS", url: "http://howardlewisship.com/repository/"
-
-    // For non-stable versions of the tapx libraries
-    mavenRepo name: "HLS Snapshots", url: "http://howardlewisship.com/snapshot-repository/"
-
-    // For access to Apache Staging (Preview) packages
-    mavenRepo name: "Apache Staging", url: "https://repository.apache.org/content/groups/staging"
 }
 
 // This simulates Maven's "provided" scope, until it is officially supported by Gradle

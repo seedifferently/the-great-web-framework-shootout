@@ -16,7 +16,7 @@ necessary dependencies to build and execute the application.
 
 By default, the application is configured to respond to the URL:
 
-    http://localhost:8080/t5app
+    http://localhost:8080/apache-tapestry5/
     
 The root Index page includes simple links to the other three demonstration
 pages.

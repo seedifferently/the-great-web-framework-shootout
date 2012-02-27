@@ -1,12 +1,18 @@
-<html t:type="layout" title="t5app Index"
-      xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
-
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd">
+<head>
+    <title>Apache Tapestry 5</title>
+</head>
+<body>
 <ul>
     <li>
-        <t:remove>
-            <t:pagelink page="HelloStatic">Static hello page</t:pagelink>
-        </t:remove>
+        <t:actionlink t:id="text">Static Text HelloWorld</t:actionlink>
+        -- uses a TextStreamResponse
+    </li>
+    <li>
+        <t:pagelink page="HelloWorldStatic">Static HelloWorld page</t:pagelink>
+        -- uses a very simple template with no dynamic behavior
     </li>
 </ul>
+</body>
 
 </html>

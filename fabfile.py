@@ -17,8 +17,7 @@ import sys, os, time, inspect, re, tempfile, pickle
 from fabric.decorators import task, parallel, serial
 from fabric.api import run, sudo, put, env, settings, hide
 from fabric.context_managers import cd
-from fabric.contrib.files import exists
-from fabric.tasks import execute
+from fabric.contrib.files import exists, append
 from boto import ec2
 
 
@@ -388,6 +387,7 @@ def mod_php(run_tests=True):
             # Do installs
             with settings(hide('running', 'stdout')):
                 sudo('apt-get -y install ' + INSTALL)
+                append('/etc/php5/conf.d/apc.ini', 'apc.stat = 0',use_sudo=True)
                 sudo('a2enmod php5')
         
         if run_tests is False:

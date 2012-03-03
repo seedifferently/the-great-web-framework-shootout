@@ -301,8 +301,8 @@ def apache(run_tests=True):
         if run_tests is False:
             return
         
-        # Setup test environment
         with settings(hide('running', 'stdout')):
+            # Setup test environment
             sudo('a2dissite 000-default')
             put(os.path.join(here, 'control_tests', 'apache', 'vhost.conf'),
                 '/etc/apache2/sites-enabled/', use_sudo=True)
@@ -313,17 +313,17 @@ def apache(run_tests=True):
             sudo('/etc/init.d/apache2 restart', pty=False)
             time.sleep(1)
         
-        with settings(hide('running', 'stdout')):
+            # Check the test url
             if run('curl %s' % TEST_URL) != "Hello World!":
                 print '*' * 80
                 print '*%s*' % 'INVALID WEBSERVER RESPONSE'.center(78)
                 print '*' * 80
                 
                 raise
-        
-        output = ''
-        for i in range(NUM_AB_TESTS):
-            with settings(hide('running', 'stdout')):
+            
+            # Run ab
+            output = ''
+            for i in range(NUM_AB_TESTS):
                 output += run(
                     'ab %s %s | egrep "(^Failed)|(^Non-2xx)|(^Requests)"' %
                     (AB_FLAGS, TEST_URL)
@@ -407,8 +407,8 @@ def mod_php(run_tests=True):
         if run_tests is False:
             return
         
-        # Setup test environment
         with settings(hide('running', 'stdout')):
+            # Setup test environment
             sudo('a2dissite 000-default')
             put(os.path.join(here, 'control_tests', 'mod_php', 'vhost.conf'),
                 '/etc/apache2/sites-enabled/', use_sudo=True)
@@ -419,17 +419,17 @@ def mod_php(run_tests=True):
             sudo('/etc/init.d/apache2 restart', pty=False)
             time.sleep(1)
         
-        with settings(hide('running', 'stdout')):
+            # Check the test url
             if run('curl %s' % TEST_URL) != "Hello World!":
                 print '*' * 80
                 print '*%s*' % 'INVALID WEBSERVER RESPONSE'.center(78)
                 print '*' * 80
                 
                 raise
-        
-        output = ''
-        for i in range(NUM_AB_TESTS):
-            with settings(hide('running', 'stdout')):
+            
+            # Run ab
+            output = ''
+            for i in range(NUM_AB_TESTS):
                 output += run(
                     'ab %s %s | egrep "(^Failed)|(^Non-2xx)|(^Requests)"' %
                     (AB_FLAGS, TEST_URL)
@@ -437,8 +437,7 @@ def mod_php(run_tests=True):
                 output += '\n'
                 time.sleep(1)
         
-        # Disable module
-        with settings(hide('running', 'stdout')):
+            # Disable module
             sudo('a2dismod php5')
         
         output = output.strip().split('\n')
@@ -515,8 +514,8 @@ def mod_wsgi(run_tests=True):
         if run_tests is False:
             return
         
-        # Setup test environment
         with settings(hide('running', 'stdout')):
+            # Setup test environment
             sudo('a2dissite 000-default')
             put(os.path.join(here, 'control_tests', 'mod_wsgi', 'vhost.conf'),
                 '/etc/apache2/sites-enabled/', use_sudo=True)
@@ -527,17 +526,17 @@ def mod_wsgi(run_tests=True):
             sudo('/etc/init.d/apache2 restart', pty=False)
             time.sleep(1)
         
-        with settings(hide('running', 'stdout')):
+            # Check the test url
             if run('curl %s' % TEST_URL) != "Hello World!":
                 print '*' * 80
                 print '*%s*' % 'INVALID WEBSERVER RESPONSE'.center(78)
                 print '*' * 80
                 
                 raise
-        
-        output = ''
-        for i in range(NUM_AB_TESTS):
-            with settings(hide('running', 'stdout')):
+            
+            # Run ab
+            output = ''
+            for i in range(NUM_AB_TESTS):
                 output += run(
                     'ab %s %s | egrep "(^Failed)|(^Non-2xx)|(^Requests)"' %
                     (AB_FLAGS, TEST_URL)
@@ -545,8 +544,7 @@ def mod_wsgi(run_tests=True):
                 output += '\n'
                 time.sleep(1)
         
-        # Disable module
-        with settings(hide('running', 'stdout')):
+            # Disable module
             sudo('a2dismod wsgi')
         
         output = output.strip().split('\n')
@@ -637,8 +635,8 @@ def mod_passenger(run_tests=True):
         if run_tests is False:
             return
         
-        # Setup test environment
         with settings(hide('running', 'stdout')):
+            # Setup test environment
             sudo('a2dissite 000-default')
             put(os.path.join(here, 'control_tests', 'mod_passenger',
                              'vhost.conf'),
@@ -650,17 +648,17 @@ def mod_passenger(run_tests=True):
             sudo('/etc/init.d/apache2 restart', pty=False)
             time.sleep(1)
         
-        with settings(hide('running', 'stdout')):
+            # Check the test url
             if run('curl %s' % TEST_URL) != "Hello World!":
                 print '*' * 80
                 print '*%s*' % 'INVALID WEBSERVER RESPONSE'.center(78)
                 print '*' * 80
                 
                 raise
-        
-        output = ''
-        for i in range(NUM_AB_TESTS):
-            with settings(hide('running', 'stdout')):
+            
+            # Run ab
+            output = ''
+            for i in range(NUM_AB_TESTS):
                 output += run(
                     'ab %s %s | egrep "(^Failed)|(^Non-2xx)|(^Requests)"' %
                     (AB_FLAGS, TEST_URL)
@@ -668,8 +666,7 @@ def mod_passenger(run_tests=True):
                 output += '\n'
                 time.sleep(1)
         
-        # Disable module
-        with settings(hide('running', 'stdout')):
+            # Disable module
             sudo('a2dismod passenger')
         
         output = output.strip().split('\n')
@@ -746,8 +743,8 @@ def plack(run_tests=True):
         if run_tests is False:
             return
         
-        # Setup test environment
         with settings(hide('running', 'stdout')):
+            # Setup test environment
             put(os.path.join(here, 'control_tests', 'plack'), '/home/ubuntu/')
             # For good measure
             sudo('chmod -R 777 /home/ubuntu/plack/')
@@ -755,17 +752,17 @@ def plack(run_tests=True):
                 '/home/ubuntu/plack/perl.psgi')
             time.sleep(1)
         
-        with settings(hide('running', 'stdout')):
+            # Check the test url
             if run('curl %s' % TEST_URL) != "Hello World!":
                 print '*' * 80
                 print '*%s*' % 'INVALID WEBSERVER RESPONSE'.center(78)
                 print '*' * 80
                 
                 raise
-        
-        output = ''
-        for i in range(NUM_AB_TESTS):
-            with settings(hide('running', 'stdout')):
+            
+            # Run ab
+            output = ''
+            for i in range(NUM_AB_TESTS):
                 output += run(
                     'ab %s %s | egrep "(^Failed)|(^Non-2xx)|(^Requests)"' %
                     (AB_FLAGS, TEST_URL)
@@ -773,8 +770,7 @@ def plack(run_tests=True):
                 output += '\n'
                 time.sleep(1)
         
-        # Terminate instance
-        with settings(hide('running', 'stdout')):
+            # Terminate instance
             sudo('killall plackup')
         
         output = output.strip().split('\n')
@@ -851,25 +847,25 @@ def nodejs(run_tests=True):
         if run_tests is False:
             return
         
-        # Setup test environment
         with settings(hide('running', 'stdout')):
+            # Setup test environment
             put(os.path.join(here, 'control_tests', 'nodejs'), '/home/ubuntu/')
             # For good measure
             sudo('chmod -R 777 /home/ubuntu/nodejs/')
             run('dtach -n /tmp/nodejs -Ez nodejs /home/ubuntu/nodejs/node.js')
             time.sleep(1)
         
-        with settings(hide('running', 'stdout')):
+            # Check the test url
             if run('curl %s' % TEST_URL) != "Hello World!":
                 print '*' * 80
                 print '*%s*' % 'INVALID WEBSERVER RESPONSE'.center(78)
                 print '*' * 80
                 
                 raise
-        
-        output = ''
-        for i in range(NUM_AB_TESTS):
-            with settings(hide('running', 'stdout')):
+            
+            # Run ab
+            output = ''
+            for i in range(NUM_AB_TESTS):
                 output += run(
                     'ab %s %s | egrep "(^Failed)|(^Non-2xx)|(^Requests)"' %
                     (AB_FLAGS, TEST_URL)
@@ -877,8 +873,7 @@ def nodejs(run_tests=True):
                 output += '\n'
                 time.sleep(1)
         
-        # Terminate instance
-        with settings(hide('running', 'stdout')):
+            # Terminate instance
             sudo('killall nodejs')
         
         output = output.strip().split('\n')

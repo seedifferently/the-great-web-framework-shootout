@@ -14,9 +14,10 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 
 import sys, os, time, inspect, re, tempfile, pickle
+from fabric.state import env
 from fabric.decorators import task, parallel, serial
-from fabric.api import run, sudo, put, env, settings, hide
-from fabric.context_managers import cd
+from fabric.operations import put, run, sudo
+from fabric.context_managers import cd, hide, settings
 from fabric.contrib.files import exists, append
 from boto import ec2
 
@@ -222,6 +223,7 @@ def cleanup():
             print '*' * 80
             print e
         
+        
         # Load the results data
         env.resultsfp.seek(0)
         results_data = pickle.loads(env.resultsfp.read())
@@ -271,7 +273,7 @@ def apache(run_tests=True):
     """
     Run the Apache 2 control test.
     """
-    INSTALL = 'apache2'
+    INSTALL = 'apache2-mpm-worker apache2-utils'
     TEST_URL = 'http://localhost/apache.html'
     
     # Check the correct usage
@@ -286,11 +288,14 @@ def apache(run_tests=True):
             current_instance = instance
     
     try:
-        if exists('/usr/sbin/apache2'):
-            pass
-        else:
-            # Do installs
-            with settings(hide('running', 'stdout')):
+        with settings(hide('running', 'stdout')):
+            if exists('/usr/sbin/apache2') and \
+               exists('/usr/sbin/apache2ctl') and \
+               sudo('apache2ctl -V | '
+                    'grep -m 1 "Server MPM"').strip().endswith('Worker'):
+                pass
+            else:
+                # Do installs
                 sudo('apt-get -y install ' + INSTALL)
         
         if run_tests is False:
@@ -305,7 +310,8 @@ def apache(run_tests=True):
                 '/var/www/', use_sudo=True)
             # For good measure
             sudo('chmod -R 777 /var/www')
-            sudo('apache2ctl restart')
+            sudo('/etc/init.d/apache2 restart', pty=False)
+            time.sleep(1)
         
         with settings(hide('running', 'stdout')):
             if run('curl %s' % TEST_URL) != "Hello World!":
@@ -373,8 +379,6 @@ def mod_php(run_tests=True):
     INSTALL = 'libapache2-mod-php5 php-apc'
     TEST_URL = 'http://localhost/php.php'
     
-    apache(run_tests=False)
-    
     # Check the correct usage
     if sys.argv[1] != 'test':
         print '\nERROR: You must run "test" as the first task. Run "fab -l" ' \
@@ -387,14 +391,17 @@ def mod_php(run_tests=True):
             current_instance = instance
     
     try:
-        if exists('/etc/apache2/mods-available/php5.load'):
-            with settings(hide('running', 'stdout')):
+        with settings(hide('running', 'stdout')):
+            if exists('/etc/apache2/mods-available/php5.load') and \
+               exists('/usr/sbin/apache2ctl') and \
+               sudo('apache2ctl -V | '
+                    'grep -m 1 "Server MPM"').strip().endswith('Prefork'):
                 sudo('a2enmod php5')
-        else:
-            # Do installs
-            with settings(hide('running', 'stdout')):
+            else:
+                # Do installs
                 sudo('apt-get -y install ' + INSTALL)
-                append('/etc/php5/conf.d/apc.ini', 'apc.stat = 0',use_sudo=True)
+                append('/etc/php5/conf.d/apc.ini', 'apc.stat = 0',
+                       use_sudo=True)
                 sudo('a2enmod php5')
         
         if run_tests is False:
@@ -409,7 +416,8 @@ def mod_php(run_tests=True):
                 use_sudo=True)
             # For good measure
             sudo('chmod -R 777 /var/www')
-            sudo('apache2ctl restart')
+            sudo('/etc/init.d/apache2 restart', pty=False)
+            time.sleep(1)
         
         with settings(hide('running', 'stdout')):
             if run('curl %s' % TEST_URL) != "Hello World!":
@@ -428,6 +436,10 @@ def mod_php(run_tests=True):
                     )
                 output += '\n'
                 time.sleep(1)
+        
+        # Disable module
+        with settings(hide('running', 'stdout')):
+            sudo('a2dismod php5')
         
         output = output.strip().split('\n')
         for line in output:
@@ -474,7 +486,7 @@ def mod_php(run_tests=True):
 @parallel
 def mod_wsgi(run_tests=True):
     """Run the Python mod_wsgi control test."""
-    INSTALL = 'libapache2-mod-wsgi'
+    INSTALL = 'apache2-mpm-worker libapache2-mod-wsgi'
     TEST_URL = 'http://localhost/'
     
     # Check the correct usage
@@ -489,12 +501,14 @@ def mod_wsgi(run_tests=True):
             current_instance = instance
     
     try:
-        if exists('/etc/apache2/mods-available/wsgi.load'):
-            with settings(hide('running', 'stdout')):
+        with settings(hide('running', 'stdout')):
+            if exists('/etc/apache2/mods-available/wsgi.load') and \
+               exists('/usr/sbin/apache2ctl') and \
+               sudo('apache2ctl -V | '
+                    'grep -m 1 "Server MPM"').strip().endswith('Worker'):
                 sudo('a2enmod wsgi')
-        else:
-            # Do installs
-            with settings(hide('running', 'stdout')):
+            else:
+                # Do installs
                 sudo('apt-get -y install ' + INSTALL)
                 sudo('a2enmod wsgi')
         
@@ -510,7 +524,8 @@ def mod_wsgi(run_tests=True):
                              use_sudo=True)
             # For good measure
             sudo('chmod -R 777 /var/www')
-            sudo('apache2ctl restart')
+            sudo('/etc/init.d/apache2 restart', pty=False)
+            time.sleep(1)
         
         with settings(hide('running', 'stdout')):
             if run('curl %s' % TEST_URL) != "Hello World!":
@@ -529,6 +544,10 @@ def mod_wsgi(run_tests=True):
                     )
                 output += '\n'
                 time.sleep(1)
+        
+        # Disable module
+        with settings(hide('running', 'stdout')):
+            sudo('a2dismod wsgi')
         
         output = output.strip().split('\n')
         for line in output:
@@ -575,7 +594,7 @@ def mod_wsgi(run_tests=True):
 @parallel
 def mod_passenger(run_tests=True):
     """Run the Ruby mod_passenger control test."""
-    INSTALL = 'build-essential apache2 apache2-dev apache2-utils ' \
+    INSTALL = 'build-essential apache2-mpm-worker apache2-dev apache2-utils ' \
               'libcurl4-openssl-dev'
     RUBY_URL = 'http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p125.tar.gz'
     TEST_URL = 'http://localhost/'
@@ -592,12 +611,14 @@ def mod_passenger(run_tests=True):
             current_instance = instance
     
     try:
-        if exists('/etc/apache2/mods-available/passenger.load'):
-            with settings(hide('running', 'stdout')):
-                sudo('a2enmod passenger')
-        else:
-            # Do installs
-            with settings(hide('running', 'stdout')):
+        with settings(hide('running', 'stdout')):
+            if exists('/etc/apache2/mods-available/passenger.load') and \
+                   exists('/usr/sbin/apache2ctl') and \
+                   sudo('apache2ctl -V | '
+                        'grep -m 1 "Server MPM"').strip().endswith('Worker'):
+                    sudo('a2enmod passenger')
+            else:
+                # Do installs
                 sudo('apt-get -y install ' + INSTALL)
                 run('wget %s' % RUBY_URL)
                 run('tar -zxvf ruby-1.9.3-p125.tar.gz')
@@ -626,7 +647,8 @@ def mod_passenger(run_tests=True):
                 '/var/www/', use_sudo=True)
             # For good measure
             sudo('chmod -R 777 /var/www')
-            sudo('apache2ctl restart')
+            sudo('/etc/init.d/apache2 restart', pty=False)
+            time.sleep(1)
         
         with settings(hide('running', 'stdout')):
             if run('curl %s' % TEST_URL) != "Hello World!":
@@ -645,6 +667,10 @@ def mod_passenger(run_tests=True):
                     )
                 output += '\n'
                 time.sleep(1)
+        
+        # Disable module
+        with settings(hide('running', 'stdout')):
+            sudo('a2dismod passenger')
         
         output = output.strip().split('\n')
         for line in output:
@@ -705,11 +731,13 @@ def plack(run_tests=True):
         if instance.public_dns_name == env.host:
             current_instance = instance
     try:
-        if exists('/usr/local/bin/plackup') and exists('/usr/bin/dtach'):
-            pass
-        else:
-            # Do installs
-            with settings(hide('running', 'stdout')):
+        with settings(hide('running', 'stdout')):
+            if exists('/usr/local/bin/plackup') and exists('/usr/bin/dtach'):
+                # Kill plackup before running it again
+                if int(run('ps aux | grep -c plackup')) > 2:
+                    sudo('killall plackup')
+            else:
+                # Do installs
                 sudo('apt-get -y install ' + INSTALL)
 #                sudo('PERL_MM_USE_DEFAULT=1 cpan -fi Task::Plack')
                 sudo('curl -L http://cpanmin.us | perl - --sudo App::cpanminus')
@@ -723,9 +751,6 @@ def plack(run_tests=True):
             put(os.path.join(here, 'control_tests', 'plack'), '/home/ubuntu/')
             # For good measure
             sudo('chmod -R 777 /home/ubuntu/plack/')
-            # Kill the last instance of plackup before running it again
-            run('pid=$(ps aux | sort -r | grep -v grep | grep -m 1 plackup | ' \
-                'awk \'{print $2}\'); if [ $pid ]; then kill -9 $pid; fi')
             run('dtach -n /tmp/plackup -Ez plackup -E deployment '
                 '/home/ubuntu/plack/perl.psgi')
             time.sleep(1)
@@ -747,6 +772,10 @@ def plack(run_tests=True):
                     )
                 output += '\n'
                 time.sleep(1)
+        
+        # Terminate instance
+        with settings(hide('running', 'stdout')):
+            sudo('killall plackup')
         
         output = output.strip().split('\n')
         for line in output:
@@ -807,11 +836,13 @@ def nodejs(run_tests=True):
         if instance.public_dns_name == env.host:
             current_instance = instance
     try:
-        if exists('/usr/bin/nodejs') and exists('/usr/bin/dtach'):
-            pass
-        else:
-            # Do installs
-            with settings(hide('running', 'stdout')):
+        with settings(hide('running', 'stdout')):
+            if exists('/usr/bin/nodejs') and exists('/usr/bin/dtach'):
+                # Kill nodejs before running it again
+                if int(run('ps aux | grep -c nodejs')) > 2:
+                    sudo('killall nodejs')
+            else:
+                # Do installs
                 sudo('apt-get -y install ' + INSTALL)
                 sudo('add-apt-repository ppa:chris-lea/node.js')
                 sudo('apt-get update')
@@ -825,9 +856,6 @@ def nodejs(run_tests=True):
             put(os.path.join(here, 'control_tests', 'nodejs'), '/home/ubuntu/')
             # For good measure
             sudo('chmod -R 777 /home/ubuntu/nodejs/')
-            # Kill the last instance of nodejs before running it again
-            run('pid=$(ps aux | sort -r | grep -v grep | grep -m 1 nodejs | ' \
-                'awk \'{print $2}\'); if [ $pid ]; then kill -9 $pid; fi')
             run('dtach -n /tmp/nodejs -Ez nodejs /home/ubuntu/nodejs/node.js')
             time.sleep(1)
         
@@ -848,6 +876,10 @@ def nodejs(run_tests=True):
                     )
                 output += '\n'
                 time.sleep(1)
+        
+        # Terminate instance
+        with settings(hide('running', 'stdout')):
+            sudo('killall nodejs')
         
         output = output.strip().split('\n')
         for line in output:

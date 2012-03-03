@@ -621,6 +621,7 @@ def mod_passenger(run_tests=True):
                 run('wget %s' % RUBY_URL)
                 run('tar -zxvf ruby-1.9.3-p125.tar.gz')
                 with cd('ruby-1.9.3-p125'):
+                    run('make clean')
                     run('./configure')
                     run('make')
                     sudo('make install')

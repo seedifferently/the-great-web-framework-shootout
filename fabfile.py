@@ -61,7 +61,7 @@ START_EC2_INSTANCES = 5 # number of instances to run tests on
 
 TERMINATE_INSTANCES = True # terminate instances after completion of tests?
 NUM_AB_TESTS = 10 # number of times to run apachebench
-AB_FLAGS = '-q -c 10 -n 25000' # apachebench flags to use
+AB_FLAGS = '-q -c 10 -n 10000' # apachebench flags to use
 
 
 

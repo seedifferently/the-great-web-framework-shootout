@@ -183,7 +183,8 @@ def test():
             
             if not env.instances:
                 print '\nERROR: None of the instances you specified seem to ' \
-                      'running. Please check your USE_EC2_INSTANCES settings.\n'
+                      'be running. Please check your USE_EC2_INSTANCES ' \
+                      'settings.\n'
                 sys.exit(1)
         except NameError:
             try:

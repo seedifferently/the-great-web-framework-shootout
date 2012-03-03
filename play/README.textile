@@ -2,8 +2,9 @@ h1. Play 2 code for the Great Web Framework Shootout
 
 h2. How to run this sample?
 
- * Build "Play 2":https://github.com/playframework/Play20 from master sources
- * Using a terminal, go in the @the-great-web-framework-shootout/play/@ directory
+ * You need a JDK (http://www.oracle.com/us/technologies/java/index.html)
+ * Download and build play from "sources":https://github.com/playframework/Play20/wiki/BuildingFromSource
+ * Go in the @the-great-web-framework-shootout/play/@ directory
  * Run the @play run@ command
 
 h2. How to benchmark this sample?

@@ -206,16 +206,23 @@ def cleanup():
     """
     Test cleanup. Run this after any other tasks.
     """
-    if env.host == env.hosts[0]:
-        if TERMINATE_INSTANCES and hasattr(env.instances[0], 'state'):
-            instances = [instance.id for instance in env.instances]
-        else:
-            instances = None
-        
-        if instances:
-            conn.terminate_instances(instances)
-    
     if env.host == env.hosts[-1]:
+        try:
+            # Terminate instances if needed
+            if TERMINATE_INSTANCES and hasattr(env.instances[0], 'state'):
+                instances = [instance.id for instance in env.instances]
+            else:
+                instances = None
+            
+            if instances:
+                conn.terminate_instances(instances)
+        except Exception, e:
+            print '*' * 80
+            print '*%s*' % 'UNABLE TO TERMINATE INSTANCES'.center(78)
+            print '*' * 80
+            print e
+        
+        # Load the results data
         env.resultsfp.seek(0)
         results_data = pickle.loads(env.resultsfp.read())
         

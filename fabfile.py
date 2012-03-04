@@ -920,9 +920,9 @@ def nodejs(run_tests=True):
 
 @task
 @parallel
-def go_http(run_tests=True):
-    """Run the Go http control test."""
-    INSTALL = 'golang'
+def gohttp(run_tests=True):
+    """Run the Google Go http control test."""
+    INSTALL = 'golang dtach apache2-utils'
     TEST_URL = 'http://localhost:12345/'
     
     # Check the correct usage
@@ -957,12 +957,12 @@ def go_http(run_tests=True):
         
         with settings(hide('running', 'stdout')):
             # Setup test environment
-            put(os.path.join(here, 'control_tests', 'go_http'), '/home/ubuntu/')
+            put(os.path.join(here, 'control_tests', 'gohttp'), '/home/ubuntu/')
             # For good measure
-            sudo('chmod -R 777 /home/ubuntu/go_http/')
-            run(ARCH + 'g -o /home/ubuntu/go_http/http.' + ARCH + ' /home/ubuntu/go_http/http.go')
-            run(ARCH + 'l -o /home/ubuntu/go_http/gohttp /home/ubuntu/go_http/http.' + ARCH)
-            run('dtach -n /tmp/go_http -Ez /home/ubuntu/go_http/gohttp')
+            sudo('chmod -R 777 /home/ubuntu/gohttp/')
+            run(ARCH + 'g -o /home/ubuntu/gohttp/http.' + ARCH + ' /home/ubuntu/gohttp/http.go')
+            run(ARCH + 'l -o /home/ubuntu/gohttp/gohttp /home/ubuntu/gohttp/http.' + ARCH)
+            run('dtach -n /tmp/gohttp -Ez /home/ubuntu/gohttp/gohttp')
             time.sleep(1)
         
             # Check the test url

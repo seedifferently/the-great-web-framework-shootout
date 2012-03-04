@@ -820,7 +820,7 @@ def plack(run_tests=True):
 @parallel
 def nodejs(run_tests=True):
     """Run the node.js control test."""
-    INSTALL = 'python-software-properties dtach apache2-utils'
+    INSTALL = 'python-software-properties nodejs nodejs-dev dtach apache2-utils'
     TEST_URL = 'http://localhost:8000/'
     
     # Check the correct usage
@@ -841,10 +841,9 @@ def nodejs(run_tests=True):
                     sudo('killall nodejs')
             else:
                 # Do installs
-                sudo('apt-get -y install ' + INSTALL)
                 sudo('add-apt-repository ppa:chris-lea/node.js')
                 sudo('apt-get update')
-                sudo('apt-get -y install nodejs nodejs-dev')
+                sudo('apt-get -y install ' + INSTALL)
         
         if run_tests is False:
             return

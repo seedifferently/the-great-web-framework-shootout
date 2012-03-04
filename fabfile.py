@@ -131,7 +131,7 @@ def test():
 #    env.key_filename = EC2_SSH_KEY_PATH
     env.user = 'ubuntu'
     env.hosts = []
-    env.results = []
+    env.results = dict(hello=[], tmpl=[], db=[])
     env.resultsfp = tempfile.TemporaryFile()
     env.resultsfp.write(pickle.dumps(dict()))
     
@@ -286,7 +286,7 @@ def apache(run_tests=True):
     # Get current instance info
     for instance in env.instances:
         if instance.public_dns_name == env.host:
-            current_instance = instance
+            break
     
     try:
         with settings(hide('running', 'stdout')):
@@ -344,10 +344,10 @@ def apache(run_tests=True):
                 
                 raise
             elif line.startswith('Requests per second'):
-                env.results.append(float(re.sub('[^0-9.]', '', line)))
+                env.results['hello'].append(float(re.sub('[^0-9.]', '', line)))
         
         # Get the median of all results
-        result = _median(env.results)
+        result = _median(env.results['hello'])
         
         # Update the results file
         env.resultsfp.seek(0)
@@ -355,12 +355,12 @@ def apache(run_tests=True):
         
         if env.command not in results_data:
             results_data[env.command] = dict()
-        if current_instance.id not in results_data[env.command]:
-            results_data[env.command][current_instance.id] = dict()
+        if instance.id not in results_data[env.command]:
+            results_data[env.command][instance.id] = dict()
         
-        results_data[env.command][current_instance.id]['hello'] = result
-        results_data[env.command][current_instance.id]['tmpl'] = 'n/a'
-        results_data[env.command][current_instance.id]['db'] = 'n/a'
+        results_data[env.command][instance.id]['hello'] = result
+        results_data[env.command][instance.id]['tmpl'] = 'n/a'
+        results_data[env.command][instance.id]['db'] = 'n/a'
         env.resultsfp.seek(0)
         env.resultsfp.write(pickle.dumps(results_data))
         env.resultsfp.truncate()
@@ -389,7 +389,7 @@ def mod_php(run_tests=True):
     # Get current instance info
     for instance in env.instances:
         if instance.public_dns_name == env.host:
-            current_instance = instance
+            break
     
     try:
         with settings(hide('running', 'stdout')):
@@ -453,10 +453,10 @@ def mod_php(run_tests=True):
                 
                 raise
             elif line.startswith('Requests per second'):
-                env.results.append(float(re.sub('[^0-9.]', '', line)))
+                env.results['hello'].append(float(re.sub('[^0-9.]', '', line)))
         
         # Get the median of all results
-        result = _median(env.results)
+        result = _median(env.results['hello'])
         
         # Update the results file
         env.resultsfp.seek(0)
@@ -464,12 +464,12 @@ def mod_php(run_tests=True):
         
         if env.command not in results_data:
             results_data[env.command] = dict()
-        if current_instance.id not in results_data[env.command]:
-            results_data[env.command][current_instance.id] = dict()
+        if instance.id not in results_data[env.command]:
+            results_data[env.command][instance.id] = dict()
         
-        results_data[env.command][current_instance.id]['hello'] = result
-        results_data[env.command][current_instance.id]['tmpl'] = 'n/a'
-        results_data[env.command][current_instance.id]['db'] = 'n/a'
+        results_data[env.command][instance.id]['hello'] = result
+        results_data[env.command][instance.id]['tmpl'] = 'n/a'
+        results_data[env.command][instance.id]['db'] = 'n/a'
         env.resultsfp.seek(0)
         env.resultsfp.write(pickle.dumps(results_data))
         env.resultsfp.truncate()
@@ -498,7 +498,7 @@ def mod_wsgi(run_tests=True):
     # Get current instance info
     for instance in env.instances:
         if instance.public_dns_name == env.host:
-            current_instance = instance
+            break
     
     try:
         with settings(hide('running', 'stdout')):
@@ -560,10 +560,10 @@ def mod_wsgi(run_tests=True):
                 
                 raise
             elif line.startswith('Requests per second'):
-                env.results.append(float(re.sub('[^0-9.]', '', line)))
+                env.results['hello'].append(float(re.sub('[^0-9.]', '', line)))
         
         # Get the median of all results
-        result = _median(env.results)
+        result = _median(env.results['hello'])
         
         # Update the results file
         env.resultsfp.seek(0)
@@ -571,12 +571,12 @@ def mod_wsgi(run_tests=True):
         
         if env.command not in results_data:
             results_data[env.command] = dict()
-        if current_instance.id not in results_data[env.command]:
-            results_data[env.command][current_instance.id] = dict()
+        if instance.id not in results_data[env.command]:
+            results_data[env.command][instance.id] = dict()
         
-        results_data[env.command][current_instance.id]['hello'] = result
-        results_data[env.command][current_instance.id]['tmpl'] = 'n/a'
-        results_data[env.command][current_instance.id]['db'] = 'n/a'
+        results_data[env.command][instance.id]['hello'] = result
+        results_data[env.command][instance.id]['tmpl'] = 'n/a'
+        results_data[env.command][instance.id]['db'] = 'n/a'
         env.resultsfp.seek(0)
         env.resultsfp.write(pickle.dumps(results_data))
         env.resultsfp.truncate()
@@ -594,7 +594,7 @@ def mod_wsgi(run_tests=True):
 def mod_passenger(run_tests=True):
     """Run the Ruby mod_passenger control test."""
     INSTALL = 'build-essential apache2-mpm-worker apache2-dev apache2-utils ' \
-              'libcurl4-openssl-dev'
+              'libcurl4-openssl-dev libsqlite3-dev libyaml-dev'
     RUBY_URL = 'http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p125.tar.gz'
     TEST_URL = 'http://localhost/'
     
@@ -607,15 +607,15 @@ def mod_passenger(run_tests=True):
     # Get current instance info
     for instance in env.instances:
         if instance.public_dns_name == env.host:
-            current_instance = instance
+            break
     
     try:
         with settings(hide('running', 'stdout')):
             if exists('/etc/apache2/mods-available/passenger.load') and \
-                   exists('/usr/sbin/apache2ctl') and \
-                   sudo('apache2ctl -V | '
-                        'grep -m 1 "Server MPM"').strip().endswith('Worker'):
-                    sudo('a2enmod passenger')
+               exists('/usr/sbin/apache2ctl') and \
+               sudo('apache2ctl -V | '
+                    'grep -m 1 "Server MPM"').strip().endswith('Worker'):
+                sudo('a2enmod passenger')
             else:
                 # Do installs
                 sudo('apt-get -y install ' + INSTALL)
@@ -683,10 +683,10 @@ def mod_passenger(run_tests=True):
                 
                 raise
             elif line.startswith('Requests per second'):
-                env.results.append(float(re.sub('[^0-9.]', '', line)))
+                env.results['hello'].append(float(re.sub('[^0-9.]', '', line)))
         
         # Get the median of all results
-        result = _median(env.results)
+        result = _median(env.results['hello'])
         
         # Update the results file
         env.resultsfp.seek(0)
@@ -694,12 +694,12 @@ def mod_passenger(run_tests=True):
         
         if env.command not in results_data:
             results_data[env.command] = dict()
-        if current_instance.id not in results_data[env.command]:
-            results_data[env.command][current_instance.id] = dict()
+        if instance.id not in results_data[env.command]:
+            results_data[env.command][instance.id] = dict()
         
-        results_data[env.command][current_instance.id]['hello'] = result
-        results_data[env.command][current_instance.id]['tmpl'] = 'n/a'
-        results_data[env.command][current_instance.id]['db'] = 'n/a'
+        results_data[env.command][instance.id]['hello'] = result
+        results_data[env.command][instance.id]['tmpl'] = 'n/a'
+        results_data[env.command][instance.id]['db'] = 'n/a'
         env.resultsfp.seek(0)
         env.resultsfp.write(pickle.dumps(results_data))
         env.resultsfp.truncate()
@@ -728,7 +728,8 @@ def plack(run_tests=True):
     # Get current instance info
     for instance in env.instances:
         if instance.public_dns_name == env.host:
-            current_instance = instance
+            break
+    
     try:
         with settings(hide('running', 'stdout')):
             if exists('/usr/local/bin/plackup') and exists('/usr/bin/dtach'):
@@ -787,10 +788,10 @@ def plack(run_tests=True):
                 
                 raise
             elif line.startswith('Requests per second'):
-                env.results.append(float(re.sub('[^0-9.]', '', line)))
+                env.results['hello'].append(float(re.sub('[^0-9.]', '', line)))
         
         # Get the median of all results
-        result = _median(env.results)
+        result = _median(env.results['hello'])
         
         # Update the results file
         env.resultsfp.seek(0)
@@ -798,12 +799,12 @@ def plack(run_tests=True):
         
         if env.command not in results_data:
             results_data[env.command] = dict()
-        if current_instance.id not in results_data[env.command]:
-            results_data[env.command][current_instance.id] = dict()
+        if instance.id not in results_data[env.command]:
+            results_data[env.command][instance.id] = dict()
         
-        results_data[env.command][current_instance.id]['hello'] = result
-        results_data[env.command][current_instance.id]['tmpl'] = 'n/a'
-        results_data[env.command][current_instance.id]['db'] = 'n/a'
+        results_data[env.command][instance.id]['hello'] = result
+        results_data[env.command][instance.id]['tmpl'] = 'n/a'
+        results_data[env.command][instance.id]['db'] = 'n/a'
         env.resultsfp.seek(0)
         env.resultsfp.write(pickle.dumps(results_data))
         env.resultsfp.truncate()
@@ -832,7 +833,8 @@ def nodejs(run_tests=True):
     # Get current instance info
     for instance in env.instances:
         if instance.public_dns_name == env.host:
-            current_instance = instance
+            break
+    
     try:
         with settings(hide('running', 'stdout')):
             if exists('/usr/bin/nodejs') and exists('/usr/bin/dtach'):
@@ -889,10 +891,10 @@ def nodejs(run_tests=True):
                 
                 raise
             elif line.startswith('Requests per second'):
-                env.results.append(float(re.sub('[^0-9.]', '', line)))
+                env.results['hello'].append(float(re.sub('[^0-9.]', '', line)))
         
         # Get the median of all results
-        result = _median(env.results)
+        result = _median(env.results['hello'])
         
         # Update the results file
         env.resultsfp.seek(0)
@@ -900,12 +902,12 @@ def nodejs(run_tests=True):
         
         if env.command not in results_data:
             results_data[env.command] = dict()
-        if current_instance.id not in results_data[env.command]:
-            results_data[env.command][current_instance.id] = dict()
+        if instance.id not in results_data[env.command]:
+            results_data[env.command][instance.id] = dict()
         
-        results_data[env.command][current_instance.id]['hello'] = result
-        results_data[env.command][current_instance.id]['tmpl'] = 'n/a'
-        results_data[env.command][current_instance.id]['db'] = 'n/a'
+        results_data[env.command][instance.id]['hello'] = result
+        results_data[env.command][instance.id]['tmpl'] = 'n/a'
+        results_data[env.command][instance.id]['db'] = 'n/a'
         env.resultsfp.seek(0)
         env.resultsfp.write(pickle.dumps(results_data))
         env.resultsfp.truncate()
@@ -934,7 +936,8 @@ def gohttp(run_tests=True):
     # Get current instance info
     for instance in env.instances:
         if instance.public_dns_name == env.host:
-            current_instance = instance
+            break
+    
     try:
         with settings(hide('running', 'stdout')):
             if run('uname -m').strip() == 'x86_64':
@@ -998,10 +1001,10 @@ def gohttp(run_tests=True):
                 
                 raise
             elif line.startswith('Requests per second'):
-                env.results.append(float(re.sub('[^0-9.]', '', line)))
+                env.results['hello'].append(float(re.sub('[^0-9.]', '', line)))
         
         # Get the median of all results
-        result = _median(env.results)
+        result = _median(env.results['hello'])
         
         # Update the results file
         env.resultsfp.seek(0)
@@ -1009,12 +1012,149 @@ def gohttp(run_tests=True):
         
         if env.command not in results_data:
             results_data[env.command] = dict()
-        if current_instance.id not in results_data[env.command]:
-            results_data[env.command][current_instance.id] = dict()
+        if instance.id not in results_data[env.command]:
+            results_data[env.command][instance.id] = dict()
         
-        results_data[env.command][current_instance.id]['hello'] = result
-        results_data[env.command][current_instance.id]['tmpl'] = 'n/a'
-        results_data[env.command][current_instance.id]['db'] = 'n/a'
+        results_data[env.command][instance.id]['hello'] = result
+        results_data[env.command][instance.id]['tmpl'] = 'n/a'
+        results_data[env.command][instance.id]['db'] = 'n/a'
+        env.resultsfp.seek(0)
+        env.resultsfp.write(pickle.dumps(results_data))
+        env.resultsfp.truncate()
+    
+    except Exception, e:
+        print '*' * 80
+        print '*%s*' % 'ABORTING DUE TO RUNTIME ERROR'.center(78)
+        print '*' * 80
+        
+        raise e
+
+
+@task
+@parallel
+def sinatra(run_tests=True):
+    """Run the Sinatra test (mod_passenger)."""
+    HELLO_TEST_URL = 'http://localhost/'
+    TMPL_TEST_URL = 'http://localhost/erb_hello'
+    DB_TEST_URL = 'http://localhost/erb_sql'
+    
+    # Check the correct usage
+    if sys.argv[1] != 'test':
+        print '\nERROR: You must run "test" as the first task. Run "fab -l" ' \
+              'for more information and a complete list of tasks.\n'
+        sys.exit(1)
+    
+    # Get current instance info
+    for instance in env.instances:
+        if instance.public_dns_name == env.host:
+            break
+    
+    try:
+        with settings(hide('running', 'stdout')):
+            if (exists('/usr/local/lib/ruby/gems/1.9.1/gems/sinatra-1.3.2/') and
+                exists('/etc/apache2/mods-available/passenger.load') and
+                exists('/usr/sbin/apache2ctl') and
+                sudo('apache2ctl -V | '
+                     'grep -m 1 "Server MPM"').strip().endswith('Worker')):
+                sudo('a2enmod passenger')
+            else:
+                # Do installs
+                mod_passenger(run_tests=False)
+                sudo('gem install sinatra -v 1.3.2 --no-rdoc --no-ri')
+                sudo('gem install sqlite3 -v 1.3.5 --no-rdoc --no-ri')
+        
+            # Setup test environment
+            sudo('a2dissite 000-default')
+            put(os.path.join(here, 'sinatra', 'vhost.conf'),
+                '/etc/apache2/sites-enabled/', use_sudo=True)
+            put(os.path.join(here, 'sinatra'), '/var/www/', use_sudo=True)
+            # For good measure
+            sudo('chmod -R 777 /var/www')
+            sudo('/etc/init.d/apache2 restart', pty=False)
+            time.sleep(1)
+        
+            # Check the test urls
+            if run('curl %s' % HELLO_TEST_URL) != "Hello World!":
+                print '*' * 80
+                print '*%s*' % 'INVALID WEBSERVER RESPONSE'.center(78)
+                print '*' * 80
+                
+                raise
+            elif 'Lorem ipsum' not in run('curl %s' % TMPL_TEST_URL):
+                print '*' * 80
+                print '*%s*' % 'INVALID WEBSERVER RESPONSE'.center(78)
+                print '*' * 80
+                
+                raise
+            elif '1</td><td>Lorem' not in run('curl %s' % DB_TEST_URL):
+                print '*' * 80
+                print '*%s*' % 'INVALID WEBSERVER RESPONSE'.center(78)
+                print '*' * 80
+                
+                raise
+            
+            # Run ab
+            output = dict(hello='', tmpl='', db='')
+            for i in range(NUM_AB_TESTS):
+                output['hello'] += run(
+                    'ab %s %s | egrep "(^Failed)|(^Non-2xx)|(^Requests)"' %
+                    (AB_FLAGS, HELLO_TEST_URL)
+                    )
+                output['hello'] += '\n'
+                time.sleep(1)
+            
+            for i in range(NUM_AB_TESTS):
+                output['tmpl'] += run(
+                    'ab %s %s | egrep "(^Failed)|(^Non-2xx)|(^Requests)"' %
+                    (AB_FLAGS, TMPL_TEST_URL)
+                    )
+                output['tmpl'] += '\n'
+                time.sleep(1)
+            
+            for i in range(NUM_AB_TESTS):
+                output['db'] += run(
+                    'ab %s %s | egrep "(^Failed)|(^Non-2xx)|(^Requests)"' %
+                    (AB_FLAGS, DB_TEST_URL)
+                    )
+                output['db'] += '\n'
+                time.sleep(1)
+        
+            # Disable module
+            sudo('a2dismod passenger')
+        
+        for k, results in output.items():
+            output[k] = results.strip().split('\n')
+        
+            for line in output[k]:
+                if (line.startswith('Failed requests') or \
+                    line.startswith('Non-2xx responses')) and \
+                   not line.strip().endswith('0'):
+                    print '*' * 80
+                    print '*%s*' % 'INVALID APACHEBENCH RESPONSE'.center(78)
+                    print '*' * 80
+                    print line
+                    
+                    raise
+                elif line.startswith('Requests per second'):
+                    env.results[k].append(float(re.sub('[^0-9.]', '', line)))
+        
+        # Get the median of all results
+        results = dict(hello=_median(env.results['hello']),
+                       tmpl=_median(env.results['tmpl']),
+                       db=_median(env.results['db']))
+        
+        # Update the results file
+        env.resultsfp.seek(0)
+        results_data = pickle.loads(env.resultsfp.read())
+        
+        if env.command not in results_data:
+            results_data[env.command] = dict()
+        if instance.id not in results_data[env.command]:
+            results_data[env.command][instance.id] = dict()
+        
+        results_data[env.command][instance.id]['hello'] = results['hello']
+        results_data[env.command][instance.id]['tmpl'] = results['tmpl']
+        results_data[env.command][instance.id]['db'] = results['db']
         env.resultsfp.seek(0)
         env.resultsfp.write(pickle.dumps(results_data))
         env.resultsfp.truncate()

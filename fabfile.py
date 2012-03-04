@@ -917,3 +917,112 @@ def nodejs(run_tests=True):
         print '*' * 80
         
         raise e
+
+
+@task
+@parallel
+def go_http(run_tests=True):
+    """Run the Go http control test."""
+    INSTALL = 'golang'
+    TEST_URL = 'http://localhost:12345/'
+    
+    # Check the correct usage
+    if sys.argv[1] != 'test':
+        print '\nERROR: You must run "test" as the first task. Run "fab -l" ' \
+              'for more information and a complete list of tasks.\n'
+        sys.exit(1)
+    
+    # Get current instance info
+    for instance in env.instances:
+        if instance.public_dns_name == env.host:
+            current_instance = instance
+    try:
+        with settings(hide('running', 'stdout')):
+            if run('uname -m').strip() == 'x86_64':
+                ARCH = '6'
+            else:
+                ARCH = '8'
+            
+            if exists('/usr/bin/' + ARCH + 'g') and exists('/usr/bin/dtach'):
+                # Kill gohttp before running it again
+                if int(run('ps aux | grep -c gohttp')) > 2:
+                    sudo('killall gohttp')
+            else:
+                # Do installs
+                sudo('add-apt-repository ppa:gophers/go')
+                sudo('apt-get update')
+                sudo('apt-get -y install ' + INSTALL)
+        
+        if run_tests is False:
+            return
+        
+        with settings(hide('running', 'stdout')):
+            # Setup test environment
+            put(os.path.join(here, 'control_tests', 'go_http'), '/home/ubuntu/')
+            # For good measure
+            sudo('chmod -R 777 /home/ubuntu/go_http/')
+            run(ARCH + 'g -o /home/ubuntu/go_http/http.' + ARCH + ' /home/ubuntu/go_http/http.go')
+            run(ARCH + 'l -o /home/ubuntu/go_http/gohttp /home/ubuntu/go_http/http.' + ARCH)
+            run('dtach -n /tmp/go_http -Ez /home/ubuntu/go_http/gohttp')
+            time.sleep(1)
+        
+            # Check the test url
+            if run('curl %s' % TEST_URL) != "Hello World!":
+                print '*' * 80
+                print '*%s*' % 'INVALID WEBSERVER RESPONSE'.center(78)
+                print '*' * 80
+                
+                raise
+            
+            # Run ab
+            output = ''
+            for i in range(NUM_AB_TESTS):
+                output += run(
+                    'ab %s %s | egrep "(^Failed)|(^Non-2xx)|(^Requests)"' %
+                    (AB_FLAGS, TEST_URL)
+                    )
+                output += '\n'
+                time.sleep(1)
+        
+            # Terminate instance
+            sudo('killall gohttp')
+        
+        output = output.strip().split('\n')
+        for line in output:
+            if (line.startswith('Failed requests') or \
+                line.startswith('Non-2xx responses')) and \
+               not line.strip().endswith('0'):
+                print '*' * 80
+                print '*%s*' % 'INVALID APACHEBENCH RESPONSE'.center(78)
+                print '*' * 80
+                print line
+                
+                raise
+            elif line.startswith('Requests per second'):
+                env.results.append(float(re.sub('[^0-9.]', '', line)))
+        
+        # Get the median of all results
+        result = _median(env.results)
+        
+        # Update the results file
+        env.resultsfp.seek(0)
+        results_data = pickle.loads(env.resultsfp.read())
+        
+        if env.command not in results_data:
+            results_data[env.command] = dict()
+        if current_instance.id not in results_data[env.command]:
+            results_data[env.command][current_instance.id] = dict()
+        
+        results_data[env.command][current_instance.id]['hello'] = result
+        results_data[env.command][current_instance.id]['tmpl'] = 'n/a'
+        results_data[env.command][current_instance.id]['db'] = 'n/a'
+        env.resultsfp.seek(0)
+        env.resultsfp.write(pickle.dumps(results_data))
+        env.resultsfp.truncate()
+    
+    except Exception, e:
+        print '*' * 80
+        print '*%s*' % 'ABORTING DUE TO RUNTIME ERROR'.center(78)
+        print '*' * 80
+        
+        raise e

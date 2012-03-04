@@ -3,6 +3,18 @@ Changelog
 ================================================================================
 
 
+04/XX/2012 (in development)
+--------------------------------------------------------------------------------
+
+* The test platform was updated to the latest Ubuntu 10.04 LTS AMI: ami-5c9b4935
+* Added a fabfile.py script so that the tests can be automated using `Fabric`_.
+* Added a "control tests" directory with plain "Hello World" tests for Apache,
+  PHP (mod_php), Python (mod_wsgi), Ruby (mod_passenger), Perl (Plack/PSGI),
+  JavaScript (node.js), and Go (Go's http package).
+
+.. _Fabric: http://www.fabfile.org
+
+
 09/12/2011
 --------------------------------------------------------------------------------
 

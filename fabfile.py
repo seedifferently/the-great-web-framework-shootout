@@ -9,7 +9,7 @@ Test configuration can be modified inside the fabfile.py. Alternatively, you can
 specify ApacheBench options via the "test" task using Fabric's kwargs passing
 syntax.
 
-Example: fab test:num_ab_tests=5,ab_flags="-q -c 50 -t 5" apache nodejs cleanup
+Example: fab test:num_ab_tests=5,ab_flags="-q -c 100 -t 5" apache nodejs cleanup
 
 
 Type "fab -l" for a full list of tasks.

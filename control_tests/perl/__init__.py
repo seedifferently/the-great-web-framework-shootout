@@ -46,6 +46,7 @@ def plack(run_tests=True):
             # Do installs
             sudo('apt-get update')
             sudo('apt-get -y install ' + INSTALL)
+            print '[%s] Building Plack from CPAN...' % env.host
 #            sudo('PERL_MM_USE_DEFAULT=1 cpan -fi Task::Plack')
             sudo('curl -L http://cpanmin.us | perl - --sudo App::cpanminus')
             sudo('cpanm -n Task::Plack --force')

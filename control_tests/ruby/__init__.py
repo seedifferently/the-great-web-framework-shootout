@@ -47,19 +47,24 @@ def passenger(run_tests=True):
                 'grep -m 1 "Server MPM"').strip().endswith('Worker'):
             sudo('a2enmod passenger')
         else:
+            # Check requirements
+            if not exists('/usr/local/bin/ruby') or \
+               not exists('/usr/local/bin/gem'):
+                sudo('apt-get update')
+                sudo('apt-get -y install ' + INSTALL)
+                if exists('/home/ubuntu/ruby-1.9.3-p125.tar.gz'):
+                    run('rm -rf /home/ubuntu/ruby-1.9.3-p125*')
+                run('wget %s' % RUBY_URL)
+                run('tar -zxvf ruby-1.9.3-p125.tar.gz')
+                print '[%s] Building Ruby...' % env.host
+                with cd('ruby-1.9.3-p125'):
+                    run('./configure')
+                    run('make')
+                    sudo('make install')
+            
             # Do installs
             sudo('apt-get update')
             sudo('apt-get -y install ' + INSTALL)
-            if exists('/home/ubuntu/ruby-1.9.3-p125.tar.gz'):
-                run('rm -rf /home/ubuntu/ruby-1.9.3-p125*')
-            run('wget %s' % RUBY_URL)
-            run('tar -zxvf ruby-1.9.3-p125.tar.gz')
-            print '[%s] Building Ruby...' % env.host
-            with cd('ruby-1.9.3-p125'):
-                run('./configure')
-                run('make')
-                sudo('make install')
-            
             sudo('gem install passenger -v 3.0.11 --no-rdoc --no-ri')
             sudo('passenger-install-apache2-module --auto')
             put(os.path.join(here, 'passenger.load'),
@@ -163,7 +168,8 @@ def thin(run_tests=True):
                 sudo('killall -9 thin')
         else:
             # Check requirements
-            if not exists('/usr/local/bin/ruby'):
+            if not exists('/usr/local/bin/ruby') or \
+               not exists('/usr/local/bin/gem'):
                 sudo('apt-get update')
                 sudo('apt-get -y install ' + INSTALL)
                 if exists('/home/ubuntu/ruby-1.9.3-p125.tar.gz'):

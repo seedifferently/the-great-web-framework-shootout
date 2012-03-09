@@ -23,7 +23,7 @@ def _average(numbers):
 @parallel
 def mod_wsgi(run_tests=True):
     """Run the Python mod_wsgi control test."""
-    INSTALL = 'apache2-mpm-worker libapache2-mod-wsgi'
+    INSTALL = 'apache2-mpm-worker libapache2-mod-wsgi curl'
     TEST_URL = 'http://localhost/'
     
     # Check the correct usage
@@ -123,7 +123,7 @@ def mod_wsgi(run_tests=True):
 def uwsgi(run_tests=True):
     """Run the Python uWSGI server control test."""
     INSTALL = 'build-essential apache2-utils dtach python-dev python-pip ' \
-              'libxml2-dev'
+              'libxml2-dev curl'
     TEST_URL = 'http://localhost:9090/'
     
     # Check the correct usage

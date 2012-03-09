@@ -23,7 +23,8 @@ def _average(numbers):
 @parallel
 def nodejs(run_tests=True):
     """Run the node.js control test."""
-    INSTALL = 'python-software-properties nodejs nodejs-dev dtach apache2-utils'
+    INSTALL = 'python-software-properties nodejs nodejs-dev dtach ' \
+              'apache2-utils curl'
     TEST_URL = 'http://localhost:8000/'
     
     # Check the correct usage

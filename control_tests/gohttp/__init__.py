@@ -23,7 +23,7 @@ def _average(numbers):
 @parallel
 def gohttp(run_tests=True):
     """Run the Google Go http control test."""
-    INSTALL = 'golang dtach apache2-utils'
+    INSTALL = 'golang dtach apache2-utils curl'
     TEST_URL = 'http://localhost:12345/'
     
     # Check the correct usage

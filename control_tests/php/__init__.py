@@ -23,7 +23,7 @@ def _average(numbers):
 @parallel
 def mod_php(run_tests=True):
     """Run the PHP mod_php control test."""
-    INSTALL = 'libapache2-mod-php5 php-apc'
+    INSTALL = 'libapache2-mod-php5 php-apc curl'
     TEST_URL = 'http://localhost/php.php'
     
     # Check the correct usage

@@ -23,7 +23,7 @@ def _average(numbers):
 @parallel
 def plack(run_tests=True):
     """Run the Perl Plack control test."""
-    INSTALL = 'build-essential dtach apache2-utils libdigest-sha1-perl'
+    INSTALL = 'build-essential dtach apache2-utils libdigest-sha1-perl curl'
     TEST_URL = 'http://localhost:5000/'
     
     # Check the correct usage
@@ -122,7 +122,7 @@ def plack(run_tests=True):
 @parallel
 def mod_perl(run_tests=True):
     """Run the Perl mod_perl 2 control test."""
-    INSTALL = 'libapache2-mod-perl2'
+    INSTALL = 'libapache2-mod-perl2 curl'
     TEST_URL = 'http://localhost/perl.pl'
     
     # Check the correct usage

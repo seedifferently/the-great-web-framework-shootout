@@ -24,7 +24,7 @@ def _average(numbers):
 def passenger(run_tests=True):
     """Run the Ruby mod_passenger control test."""
     INSTALL = 'build-essential apache2-mpm-worker apache2-dev apache2-utils ' \
-              'libcurl4-openssl-dev libsqlite3-dev libyaml-dev'
+              'libcurl4-openssl-dev libsqlite3-dev libyaml-dev curl'
     RUBY_URL = 'http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p125.tar.gz'
     TEST_URL = 'http://localhost/'
     
@@ -145,7 +145,7 @@ def passenger(run_tests=True):
 def thin(run_tests=True):
     """Run the Ruby thin server control test."""
     INSTALL = 'build-essential apache2-utils dtach libcurl4-openssl-dev ' \
-              'libsqlite3-dev libyaml-dev'
+              'libsqlite3-dev libyaml-dev curl'
     RUBY_URL = 'http://ftp.ruby-lang.org/pub/ruby/1.9/ruby-1.9.3-p125.tar.gz'
     TEST_URL = 'http://localhost:3000/'
     

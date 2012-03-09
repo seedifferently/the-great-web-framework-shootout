@@ -23,7 +23,7 @@ def _average(numbers):
 @parallel
 def apache(run_tests=True):
     """Run the Apache 2 control test."""
-    INSTALL = 'apache2-mpm-worker apache2-utils'
+    INSTALL = 'apache2-mpm-worker apache2-utils curl'
     TEST_URL = 'http://localhost/apache.html'
     
     # Check the correct usage

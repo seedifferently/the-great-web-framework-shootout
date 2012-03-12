@@ -23,7 +23,7 @@ def _average(numbers):
 @parallel
 def nodejs():
     """Run the express nodejs test."""
-    INSTALL = 'libsqlite3-dev'
+    INSTALL = 'build-essential libsqlite3-dev'
     HELLO_TEST_URL = 'http://localhost:8000/'
     TMPL_TEST_URL = 'http://localhost:8000/hb_hello'
     DB_TEST_URL = 'http://localhost:8000/hb_sql'

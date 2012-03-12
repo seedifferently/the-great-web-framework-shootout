@@ -35,7 +35,7 @@ from control_tests.apache import apache
 from control_tests.gohttp import gohttp
 from control_tests.nodejs import nodejs
 from control_tests import perl, php, python, ruby
-import flask, sinatra
+import express, flask, sinatra
 
 
 ################################################################################

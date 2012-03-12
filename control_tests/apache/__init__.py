@@ -47,11 +47,10 @@ def apache(run_tests=True):
             # Do installs
             sudo('apt-get update')
             sudo('apt-get -y install ' + INSTALL)
-    
-    if run_tests is False:
-        return
-    
-    with settings(hide('running', 'stdout')):
+        
+        if run_tests is False or run_tests == 'False':
+            return
+        
         # Setup test environment
         sudo('a2dissite 000-default')
         put(os.path.join(here, 'vhost.conf'),

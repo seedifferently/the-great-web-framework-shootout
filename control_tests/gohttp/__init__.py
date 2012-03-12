@@ -52,11 +52,10 @@ def gohttp(run_tests=True):
             sudo('add-apt-repository ppa:gophers/go')
             sudo('apt-get update')
             sudo('apt-get -y install ' + INSTALL)
-    
-    if run_tests is False:
-        return
-    
-    with settings(hide('running', 'stdout')):
+        
+        if run_tests is False or run_tests == 'False':
+            return
+        
         # Setup test environment
         put(here, '/home/ubuntu/')
         # For good measure

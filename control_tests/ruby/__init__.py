@@ -70,11 +70,10 @@ def passenger(run_tests=True):
             put(os.path.join(here, 'passenger.load'),
                 '/etc/apache2/mods-available/', use_sudo=True)
             sudo('a2enmod passenger')
-    
-    if run_tests is False or run_tests == 'False':
-        return
-    
-    with settings(hide('running', 'stdout')):
+        
+        if run_tests is False or run_tests == 'False':
+            return
+        
         # Setup test environment
         sudo('a2dissite 000-default')
         put(os.path.join(here, 'vhost.conf'),

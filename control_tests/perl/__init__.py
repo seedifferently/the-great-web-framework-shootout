@@ -50,11 +50,10 @@ def plack(run_tests=True):
 #            sudo('PERL_MM_USE_DEFAULT=1 cpan -fi Task::Plack')
             sudo('curl -L http://cpanmin.us | perl - --sudo App::cpanminus')
             sudo('cpanm -n Task::Plack --force')
-    
-    if run_tests is False or run_tests == 'False':
-        return
-    
-    with settings(hide('running', 'stdout')):
+        
+        if run_tests is False or run_tests == 'False':
+            return
+        
         # Setup test environment
         put(here, '/home/ubuntu/')
         # For good measure
@@ -147,11 +146,10 @@ def mod_perl(run_tests=True):
             sudo('apt-get update')
             sudo('apt-get -y install ' + INSTALL)
             sudo('a2enmod perl')
-    
-    if run_tests is False or run_tests == 'False':
-        return
-    
-    with settings(hide('running', 'stdout')):
+        
+        if run_tests is False or run_tests == 'False':
+            return
+        
         # Setup test environment
         sudo('a2dissite 000-default')
         put(os.path.join(here, 'vhost.conf'),

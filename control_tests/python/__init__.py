@@ -218,8 +218,7 @@ def uwsgi(run_tests=True):
 @parallel
 def gunicorn(run_tests=True):
     """Run the Python Gunicorn (sync) server control test."""
-    INSTALL = 'build-essential apache2-utils dtach python-dev python-pip ' \
-              'libxml2-dev curl'
+    INSTALL = 'build-essential apache2-utils dtach python-dev python-pip curl'
     TEST_URL = 'http://localhost:8000/'
     
     # Check the correct usage

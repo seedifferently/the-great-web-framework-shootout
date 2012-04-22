@@ -21,7 +21,7 @@ grails.project.dependency.resolution = {
         grailsHome()
         grailsCentral()
         mavenCentral()
-
+		mavenRepo "https://hibernate-sqlite.googlecode.com/svn/trunk/mavenrepo"
         // uncomment these to enable remote dependency resolution from public Maven repositories
         //mavenCentral()
         //mavenLocal()
@@ -32,7 +32,8 @@ grails.project.dependency.resolution = {
     }
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes eg.
-
+		compile 'org.xerial:sqlite-jdbc:3.7.2'
+		runtime 'com.applerao:hibernatesqlite:1.0'
         // runtime 'mysql:mysql-connector-java:5.1.16'
     }
 

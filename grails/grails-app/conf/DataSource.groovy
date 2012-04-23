@@ -1,10 +1,11 @@
 dataSource {
     pooled = true
-	dbCreate = "update"
+	dbCreate = "validate"
 	url = "jdbc:sqlite:hello.db"
     driverClassName = "org.sqlite.JDBC"
 	logSql = "true"
-	dialect = "com.applerao.hibernatesqlite.dialect.SQLiteDialect"
+	// we use the MySQL dialect as a generic substitute for SQLite
+	dialect = "org.hibernate.dialect.MySQLDialect"
 }
 hibernate {
     cache.use_second_level_cache = true

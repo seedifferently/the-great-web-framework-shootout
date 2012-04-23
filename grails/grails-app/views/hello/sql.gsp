@@ -5,7 +5,7 @@
 	</head>
 	<body>
 		<table>
-			<g:each in="${hellos}" var="${hello}">
+			<g:each in="${hellos}" var="hello">
 				<tr>
 					<td>${hello.id}</td>
 					<td>${hello.data}</td>

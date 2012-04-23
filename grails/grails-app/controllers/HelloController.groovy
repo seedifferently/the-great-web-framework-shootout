@@ -1,4 +1,8 @@
+import groovy.sql.Sql
+
 class HelloController {
+	def dataSource
+	
 	def string() {
 		render "Hello world!"
 	}
@@ -17,5 +21,9 @@ class HelloController {
 			rutrum a dictumst leo, laoreet dui, ultricies platea. Porta venenatis
 			fringilla vestibulum arcu etiam condimentum non.
 		''']
+	}
+	
+	def sql() {
+		[hellos: Hello.findAll()]
 	}
 }

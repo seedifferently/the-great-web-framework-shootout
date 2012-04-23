@@ -6,6 +6,10 @@ The Great Web Framework Shootout
 | http://blog.curiasolutions.com/the-great-web-framework-shootout/
 
 
+**WARNING: YOU ARE CURRENTLY VIEWING THE DEV BRANCH WHICH IS A WORK IN PROGRESS
+BRANCH AND LIKELY CONTAINS INACCURATE AND/OR INCOMPLETE DATA!**
+
+
 Synopsis
 ================================================================================
 
@@ -13,17 +17,20 @@ Welcome to the great web framework shootout. Here you will find test code and
 benchmark results comparing the performance of a few of the most popular F/OSS
 web frameworks in use today.
 
-Please see `The Great Web Framework Shootout's website`_ for important
-disclaimers and other detailed information about these benchmarks. If you have
-any questions or comments, feel free to contact me on `Google+`_.
+Please see `The Great Web Framework Shootout`_ website for important disclaimers
+and other detailed information about these benchmarks. If you have any questions
+or comments, feel free to contact me on `Google+`_.
 
-.. _The Great Web Framework Shootout's website:
+.. _The Great Web Framework Shootout:
    http://blog.curiasolutions.com/the-great-web-framework-shootout/
 .. _Google+: http://profiles.google.com/seedifferently
 
 
-"Do these results have any real world value?"
+Frequently Asked Questions *(please read before creating an issue)*
 ================================================================================
+
+Do these results have any real world value?
+--------------------------------------------------------------------------------
 
 Probably not. When it comes to code, the slightest adjustments have the
 potential to change things drastically. While I have tried to perform each test
@@ -40,114 +47,18 @@ Additionally, nothing here is intended to make one web technology appear
 going to depend solely on page request speeds).
 
 
-"Will you please add XYZ to the results?"
-================================================================================
+Will you please add XYZ to the results?
+--------------------------------------------------------------------------------
 
 Maybe, if you can convince me that enough people would be interested in having
 it displayed next to heavyweights like Rails and Django. Fork the repository
-and submit a pull request under the `dev` branch with a test app in the same
+and submit a pull request *under the dev branch* with a test app in the same
 format as the other tests, and make sure you include your best sales pitch.
 Otherwise, I'd suggest you boot up the EC2 AMI and do your own benchmarking.
 
 
-Benchmark Results
-================================================================================
-
-Three basic tests were set up for each framework to run. Below are the results
-of each test in requests per second from highest (best performance) to lowest
-(worst performance).
-
-Remember: Comparing all of these framework tests side-by-side isn't really
-"fair" because they are all so different. Compiled languages (e.g. Go) are
-expected to be faster than scripted languages. Tests using an ORM (e.g. Rails,
-Django, Pyramid, etc.) are expected to be slower than tests using only a plain
-database library (e.g. Bottle, Flask, Sinatra, etc).
-
-Please see `the website`_ for more detailed information and a better breakdown
-of the tests (graphs included!).
-
-.. _the website:
-   http://blog.curiasolutions.com/the-great-web-framework-shootout/
-
-
-The "Hello World" String Test
+What kind of test setup are you using?
 --------------------------------------------------------------------------------
-
-This test simply spits out a string response. There's no template or DB calls
-involved, so the level of processing should be minimal.
-
-=================        ========
-Framework                Reqs/sec
-=================        ========
-web.go (Go r59)              3346
-Pyramid 1.2                  3026
-Bottle 0.9.6                 2825
-Django 1.3.1                 2159
-Flask 0.7.2                  2054
-Sinatra 1.2.6                1583
-CodeIgniter 2.0.3             929
-TG 2.1.2                      839
-Yii 1.1.8                     726
-Kohana 3.2.0                  714
-Rails 3.1                     711
-Symfony 2.0.1                 273
-CakePHP 1.3.11                254
-=================        ========
-
-
-The "Hello World" Template Test
---------------------------------------------------------------------------------
-
-This test prints out Lorem Ipsum via a template (thus engaging the framework's
-templating systems).
-
-=================        ========
-Framework                Reqs/sec
-=================        ========
-Bottle 0.9.6                 2417
-web.go (Go r59)              1959
-Flask 0.7.2                  1918
-Pyramid 1.2                  1650
-Sinatra 1.2.6                1329
-Django 1.3.1                 1005
-CodeIgniter 2.0.3             884
-Kohana 3.2.0                  675
-TG 2.1.2                      663
-Rails 3.1                     625
-Yii 1.1.8                     548
-CakePHP 1.3.11                203
-Symfony 2.0.1                 171
-=================        ========
-
-
-The "Hello World" Template Test With DB Query
---------------------------------------------------------------------------------
-
-This test loads 5 rows of Lorem Ipsum from a SQLite DB (via the default ORM or
-a sqlite3 driver) and then prints them out through a template (thus engaging
-both the framework’s ORM/DB driver and the templating system).
-
-=================        ========
-Framework                Reqs/sec
-=================        ========
-Bottle 0.9.6                 1562
-Flask 0.7.2                  1191
-Sinatra 1.2.6                 982
-web.go (Go r59)               741
-Pyramid 1.2                   555
-CodeIgniter 2.0.3             542
-Django 1.3.1                  465
-Rails 3.1                     463
-Kohana 3.2.0                  423
-TG 2.1.2                      298
-Yii 1.1.8                     201
-CakePHP 1.3.11                193
-Symfony 2.0.1                 113
-=================        ========
-
-
-Test Platform Setup
-================================================================================
 
 All tests were performed on Amazon's EC2 with the following configuration:
 
@@ -164,6 +75,30 @@ All tests were performed on Amazon's EC2 with the following configuration:
 * PHP 5.3.2 (with APC enabled) was used for the PHP based tests.
 * ApacheBench was run with -n 10000 and -c 10 about 5-10 times each, and the
   "best guess average" was chosen.
+
+The three basic tests that each framework was set up to run were:
+
+1. The "Hello World" test: This test simply spits out a string response. There's
+   no template or DB calls involved, so the level of processing should be
+   minimal.
+2. The template test: This test prints out Lorem Ipsum via a template (thus
+   engaging the framework's templating systems).
+3. The template/db test: This test loads 5 rows of Lorem Ipsum from a SQLite DB
+   (via the default ORM or a sqlite3 driver) and then prints them out through a
+   template (thus engaging both the framework's ORM/DB driver and the templating
+   system).
+
+
+Benchmark Results
+================================================================================
+
+The benchmark results can be viewed in the README.rst file in each framework's
+test code directory. For the complete report, please see `The Great Web
+Framework Shootout`_ website where you will find a better breakdown of the tests
+(including side-by-side graphs).
+
+.. _The Great Web Framework Shootout:
+   http://blog.curiasolutions.com/the-great-web-framework-shootout/
 
 
 Most Recent Changes

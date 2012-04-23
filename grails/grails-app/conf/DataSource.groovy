@@ -3,7 +3,6 @@ dataSource {
 	dbCreate = "validate"
 	url = "jdbc:sqlite:hello.db"
     driverClassName = "org.sqlite.JDBC"
-	logSql = "true"
 	// we use the MySQL dialect as a generic substitute for SQLite
 	dialect = "org.hibernate.dialect.MySQLDialect"
 }

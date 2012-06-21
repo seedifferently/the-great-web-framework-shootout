@@ -1,0 +1,16 @@
+h1. Play 2 code for the Great Web Framework Shootout
+
+h2. How to run this sample?
+
+ * You need a JDK (http://www.oracle.com/us/technologies/java/index.html)
+ * Download and build play from "sources":https://github.com/playframework/Play20/wiki/BuildingFromSource
+ * Go in the @the-great-web-framework-shootout/play/@ directory
+ * Run the @play run@ command
+
+h2. How to benchmark this sample?
+
+ * @$ play clean compile stage@
+ * @$ target/start &@
+ * @$ ab -n 1000000 -k -c 300 localhost:9000/hello@
+ * @$ ab -n 1000000 -k -c 300 localhost:9000/hellos@
+ * @$ ab -n 1000000 -k -c 300 localhost:9000/hello-db@

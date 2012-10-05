@@ -30,14 +30,21 @@ type Row struct {
 	Data string
 }
 
-func databaseHandler(w http.ResponseWriter, r *http.Request) {
+func makeDatabaseHandler() http.HandlerFunc {
 	db, err := sql.Open("sqlite3", "hello.db")
 	if err != nil {
-		serveError(w, err)
-		return
+		//serveError(w, err)
+		//return
+		panic("AAAAAARGH !") // Yeah, I know... it needs better error handling...
 	}
-	defer db.Close()
+	return func(w http.ResponseWriter, r *http.Request) {
+		// defer db.Close()
+		// Never close it, huh ?!?!?!
+		databaseHandler(w, r, db)
+	}
+}
 
+func databaseHandler(w http.ResponseWriter, r *http.Request, db *sql.DB) {
 	rows, err := db.Query(query)
 	if err != nil {
 		serveError(w, err)
@@ -71,6 +78,6 @@ func serveError(w http.ResponseWriter, err error) {
 func main() {
 	http.HandleFunc("/", helloHandler)
 	http.HandleFunc("/template", templateHandler)
-	http.HandleFunc("/database", databaseHandler)
+	http.HandleFunc("/database", makeDatabaseHandler())
 	http.ListenAndServe(":8080", nil)
 }
